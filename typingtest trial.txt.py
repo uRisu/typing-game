@@ -6,7 +6,6 @@ firstTime = 0
 secondTime = 0
 
 sentence = input("Please type in a sentence that you want to use to test your friend.\n")
-sentenceLength = len(sentence)
 
 for i in range(25):
     print("\n")
@@ -14,7 +13,7 @@ for i in range(25):
 def pause():
     time.sleep(0.6)
     
-#----------------------the actual game starts from here------------------------
+#----------------------the actual game code------------------------
 def playing():
     errorFlag = 0
     
@@ -45,10 +44,22 @@ def playing():
     print("       You typed:",mySentence,"\n")
     pause()
     
+    MSlength = len(mySentence)
+    Slength = len(sentence)
+    
+    if MSlength > Slength: #Comparing how much the user has typed to the original sentence (OTW there will be an error in line 60.)
+        sentenceLength = Slength
+        errorFlag = MSlength - Slength
+    elif MSlength < Slength:
+        sentenceLength = MSlength
+        errorFlag = Slength - MSlength
+    elif MSlength = Slength:
+        sentenceLength = Slength
+
     for i in range (sentenceLength):
         if mySentence[i] != sentence[i]:
             errorFlag += 1 #Looking for errors, char by char.
-            
+         
     totalTime = finishTime - startTime
     totalTime = round(totalTime,3)
 
@@ -63,7 +74,7 @@ def playing():
     pause()
     
     return totalTime
-#------------------------------------to here-----------------------------------------
+#----------------------------------------------------------------------------
 
 firstTime = playing()
 
