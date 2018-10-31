@@ -6,7 +6,7 @@ firstTime = 0
 secondTime = 0
 
 sentence = input("Please type in a sentence that you want to use to test your friend.\n")
-
+Slength = len(sentence)
 for i in range(25):
     print("\n")
     
@@ -16,8 +16,9 @@ def pause():
 #----------------------the actual game code------------------------
 def playing():
     errorFlag = 0
+    global Slength
     
-    print("You'll need to type in the given sentence as fast as you can.\nCapitals, spaces and punctuations do matter. \nHint: number of characters:",sentenceLength,"\n")
+    print("You'll need to type in the given sentence as fast as you can.\nCapitals, spaces and punctuations do matter. \nHint: number of characters:",Slength,"\n")
     pause()
     userStart = input("Please type in 's' when you're ready. Press Enter when finished.")
 
@@ -33,8 +34,7 @@ def playing():
         else:
             userStart = input("Please type in 's' when you're ready.")
         
-    print("Start typing!\n\n")
-    print(sentence)
+    print("\n\n\n"+sentence)
     startTime = time.clock() #The user is writing...
 
     mySentence = input() 
@@ -45,15 +45,16 @@ def playing():
     pause()
     
     MSlength = len(mySentence)
-    Slength = len(sentence)
     
-    if MSlength > Slength: #Comparing how much the user has typed to the original sentence (OTW there will be an error in line 60.)
+    if MSlength > Slength: #Comparing user's sentence to the original sentence (OTW there will be an error in line 62.)
         sentenceLength = Slength
         errorFlag = MSlength - Slength
+        
     elif MSlength < Slength:
         sentenceLength = MSlength
         errorFlag = Slength - MSlength
-    elif MSlength = Slength:
+        
+    elif MSlength == Slength:
         sentenceLength = Slength
 
     for i in range (sentenceLength):
@@ -67,13 +68,13 @@ def playing():
         print("Perfect! No error found!")
         pause()
     else:
-        print("Uh-uh. Your sentence has",errorFlag,"errors.")
+        print("Uh-uh. Your sentence has",errorFlag,"error(s).")
         pause()
 
     print("Total time taken:",totalTime,"seconds.\n")
     pause()
     
-    return totalTime
+    return [totalTime,errorFlag]
 #----------------------------------------------------------------------------
 
 firstTime = playing()
@@ -84,6 +85,7 @@ while True:
     if userChoice== "n":
         print("\nThank you for playing.")
         sys.exit()
+        input()
     
     elif userChoice =="y":
         print("\nAlright. Another go.\n")
@@ -95,15 +97,32 @@ while True:
 
 secondTime = playing()
 
-if firstTime > secondTime:
-    difference = round(firstTime-secondTime,3)
-    print("Your first attempt took more time. You got faster by",difference,"second(s).\n")
+if firstTime[0] > secondTime[0]:
+    difference = round(firstTime[0]-secondTime[0],3)
+    print("Your first attempt took more time. You got faster by",difference,"second(s).")
     
-elif firstTime < secondTime:
-    difference = round(secondTime-firstTime,3)
-    print("Your second attempt took more time. You got slower by",difference,"second(s).\n")
+elif firstTime[0] < secondTime[0]:
+    difference = round(secondTime[0]-firstTime[0],3)
+    print("Your second attempt took more time. You got slower by",difference,"second(s).")
     
-elif firstTime == secondTime:
-    print("Unbelievable! Your first and second attemps took exactly the same amount of time! Are you a computer?\n")
+elif firstTime[0] == secondTime[0]:
+    print("Unbelievable! Your first and second attemps took exactly the same time! Are you a computer?")
+   
+
+if firstTime[1] > secondTime[1]:
+    difference = firstTime[1]-secondTime[1]
+    print("Your first attempt had",difference,"more errors than the second one.\n")
+
+elif firstTime[1] < secondTime[1]:
+    difference = secondTime[1]-firstTime[1]
+    print("Your second attempt had",difference,"more errors than the first one.\n")
+
+elif firstTime[1] ==0 and secondTime[1]==0:
+    print("No error for both attempts! Well done!\n")
+    
+else:
+    print("Your first and second attempts had the same number of errors. No improvement.")
 
 print("Thank you for playing. Run the program again to play again!")
+
+input()
